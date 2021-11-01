@@ -1,1 +1,1 @@
-data = cursor.fetchall()
+tel
