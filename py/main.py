@@ -9,6 +9,7 @@ from login import *
 from register import *
 from HomePage import *
 from AlterInfo import *
+from HomePage_admin import *
 
 connect = connect(host='localhost', port=3306, database='mydb',
                           user='root', password='aA628826628', charset='utf8')
@@ -18,6 +19,7 @@ global_user_id = []
 class LoginWindow(QMainWindow, Ui_Login):
     switch_window_register = QtCore.pyqtSignal()
     switch_window_homepage = QtCore.pyqtSignal()
+    switch_window_homepage_admin = QtCore.pyqtSignal()
 
     def __init__(self, parent = None):
         super(LoginWindow, self).__init__(parent)
@@ -30,8 +32,15 @@ class LoginWindow(QMainWindow, Ui_Login):
     # 登录成功并前往主页
     def _login(self):
         if self.login_check():
-            self.switch_window_homepage.emit()
-    
+            cursor = connect.cursor()
+            sql = 'SELECT user_role FROM user WHERE user_id=%s'  
+            cursor.execute(sql, global_user_id)
+            data = cursor.fetchall()
+            if str(data[0][0]) == 'user':
+                self.switch_window_homepage.emit()
+            elif data[0][0] == 'admin':
+                self.switch_window_homepage_admin.emit()
+        
     def login_check(self):
         """登录功能"""
         # connect = connect(host='localhost', port=3306, database='mydb',
@@ -117,14 +126,15 @@ class RegisterWindow(QMainWindow, Ui_Register):
         # sql = """INSERT INTO EMPLOYEE(user_id, user_pw, tel, user_role, email, money)
         #          VALUES ('Mac', 'Mohan', 20, 'M', 2000)"""
         sql = "INSERT INTO user(user_id, \
-               user_pw, tel) \
-               VALUES ('%s', '%s', %s)" % \
-               (username, password, tel)
+               user_pw, tel, user_role, money) \
+               VALUES ('%s', '%s', %s, '%s', %s)" % \
+               (username, password, tel, 'user', 0)
         try:
             # 执行sql语句
             cursor.execute(sql)
             # 执行sql语句
             connect.commit()
+            global_user_id.append(copy.copy(username))
             return True
         except:
             # 发生错误时回滚
@@ -146,6 +156,44 @@ class HomePageWindow(QMainWindow, Ui_Form):
     def update_info(self):
         cursor = connect.cursor()
         sql = 'SELECT user_id,user_role,tel,email,money FROM user WHERE user_id=%s'  # 从数据库中读取数据
+        cursor.execute(sql, global_user_id)
+        data = cursor.fetchall()
+
+        self.label_id.setText(data[0][0])
+
+        if(data[0][1] == None):
+            self.label_role.setText("unknown")
+        else:
+            self.label_role.setText(data[0][1])
+
+        self.label_tel.setText(data[0][2])
+
+        if(data[0][3] == None):
+            self.label_email.setText("unknown")
+        else:
+            self.label_email.setText(data[0][3])
+        
+        if(data[0][4] == None):
+            self.label_money.setText("unknown")
+        else:
+            self.label_money.setText(str(data[0][4]))
+
+# 管理员主页
+class HomePageAdminWindow(QMainWindow, Ui_HomePage_admin):
+    switch_window_edit_info = QtCore.pyqtSignal()
+    def __init__(self, parent = None):
+        super(HomePageAdminWindow, self).__init__(parent)
+        self.setupUi(self)
+        self.update_info()
+        self.pushButton_2.clicked.connect(self._alter_info)
+    
+    def _alter_info(self):
+        self.switch_window_edit_info.emit()
+    
+    # 显示当前用户的信息
+    def update_info(self):
+        cursor = connect.cursor()
+        sql = 'SELECT user_id,user_role,tel,email,deleted_num FROM user WHERE user_id=%s'  # 从数据库中读取数据
         cursor.execute(sql, global_user_id)
         data = cursor.fetchall()
 
@@ -259,6 +307,8 @@ class Controller:
         self.login = LoginWindow()
         self.login.switch_window_homepage.connect(self.show_homepage)
         self.login.switch_window_homepage.connect(self.login.close)
+        self.login.switch_window_homepage_admin.connect(self.show_homepage_admin)
+        self.login.switch_window_homepage_admin.connect(self.login.close)
         self.login.switch_window_register.connect(self.show_register)
         self.login.switch_window_register.connect(self.login.close)
         self.login.show()
@@ -274,8 +324,12 @@ class Controller:
     def show_homepage(self):
         self.homepage = HomePageWindow()
         self.homepage.switch_window_edit_info.connect(self.show_alter_info)
-        self.homepage.switch_window_edit_info.connect(self.homepage.close)
         self.homepage.show()
+
+    def show_homepage_admin(self):
+        self.homepage_admin = HomePageAdminWindow()
+        self.homepage_admin.switch_window_edit_info.connect(self.show_alter_info)
+        self.homepage_admin.show()
 
     def show_alter_info(self):
         self.alter_info = AlterInfoWindow()
