@@ -1,12 +1,15 @@
 # -*- coding: utf-8 -*-
 import sys
-from PyQt5.QtWidgets import QApplication, QWidget, QMainWindow
+from PyQt5.QtWidgets import QApplication, QWidget, QMainWindow, QMessageBox
 from PyQt5 import QtCore
 
 from login import *
 from register import *
 from HomePage import *
+from pymysql import *
 
+connect = connect(host='localhost', port=3306, database='mydb',
+                          user='root', password='aA628826628', charset='utf8')
 
 # 登录
 class LoginWindow(QMainWindow, Ui_Login):
@@ -21,10 +24,39 @@ class LoginWindow(QMainWindow, Ui_Login):
 
     def _register(self):
         self.switch_window_register.emit()
-        
+    
     def _login(self):
-        self.switch_window_homepage.emit()
+        if self.login_check():
+            self.switch_window_homepage.emit()
+    
+    def login_check(self):
+        """登录功能"""
+        # connect = connect(host='localhost', port=3306, database='mydb',
+        #                   user='root', password='aA628826628', charset='utf8')
+        cursor = connect.cursor()
+        username = self.lineEdit.text()   # 获取账号
+        password = self.lineEdit_2.text() # 获取密码
+        sql = 'SELECT user_id,user_pw FROM user WHERE user_id=%s'  # 从数据库中读取数据
+        cursor.execute(sql, username)
+        data = cursor.fetchall()
+        if username and password:  # 如果两个都不空
+            if data:
+                if str(data[0][1]) == password:
+                    QMessageBox.information(self, 'Successfully', 'Login in successful \n Welcome {}'.format(username),
+                                            QMessageBox.Yes | QMessageBox.No)
+                    return True
+                else:
+                    QMessageBox.information(self, 'Failed', 'Password is wrong, please try again',
+                                            QMessageBox.Yes | QMessageBox.No)
+            else:
+                QMessageBox.information(self, 'Error', 'Please no such username', QMessageBox.Yes | QMessageBox.No)
+        elif username:  # 如果用户名填了
+            QMessageBox.information(self, 'Error', 'Please Input your password', QMessageBox.Yes | QMessageBox.No)
+        else:
+            QMessageBox.information(self, 'Error', 'Please fill in the blank', QMessageBox.Yes | QMessageBox.No)
+        return False
 
+        
 # 注册
 class RegisterWindow(QMainWindow, Ui_Register):
     switch_window_login = QtCore.pyqtSignal()
@@ -39,10 +71,58 @@ class RegisterWindow(QMainWindow, Ui_Register):
     
     # 注册
     def _login(self):
-        self.switch_window_login.emit()
+        if self.register_check():
+            self.switch_window_login.emit()
     
     def _return(self):
         self.switch_window_return.emit()
+
+    def register_check(self):
+        cursor = connect.cursor()
+        tel = self.lineEdit.text()   # 获取手机号
+        username = self.lineEdit_2.text() # 获取账号
+        password = self.lineEdit_3.text() # 获取密码
+        sql = 'SELECT user_id,user_pw,tel FROM user WHERE user_id=%s'  # 从数据库中读取数据
+        cursor.execute(sql, username)
+        data = cursor.fetchall()
+        if not tel:
+            QMessageBox.information(self, 'Error', 'Please input your phone number',
+                                    QMessageBox.Yes | QMessageBox.No)
+            return False
+        elif not username:
+            QMessageBox.information(self, 'Error', 'Please input your username',
+                                    QMessageBox.Yes | QMessageBox.No)
+            return False
+        elif not password:
+            QMessageBox.information(self, 'Error', 'Please input your password',
+                                    QMessageBox.Yes | QMessageBox.No)
+            return False
+        elif len(tel) != 11:
+            QMessageBox.information(self, 'Error', 'Phone number should have 11 numbers',
+                                    QMessageBox.Yes | QMessageBox.No)
+            return False
+        elif data:
+            print(data)
+            QMessageBox.information(self, 'Error', 'Username existed',
+                                    QMessageBox.Yes | QMessageBox.No)
+            return False
+        elif len(password) < 8:
+            QMessageBox.information(self, 'Error', 'Password too short, please input at least 8 letters',
+                                    QMessageBox.Yes | QMessageBox.No)
+            return False
+        sql = "INSERT INTO user(user_id, \
+               user_pw, tel) \
+               VALUES ('%s', '%s',  %s)" % \
+               (username, password, tel)
+        try:
+            # 执行sql语句
+            cursor.execute(sql)
+            # 执行sql语句
+            connect.commit()
+            return True
+        except:
+            # 发生错误时回滚
+            connect.rollback()
 
 # 个人主页
 class HomePageWindow(QMainWindow, Ui_Form):
