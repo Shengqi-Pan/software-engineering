@@ -35,6 +35,7 @@ class RegisterWindow(QMainWindow, Ui_Register):
         self.setupUi(self)
         self.pushButton_login.clicked.connect(self._login)
         self.pushButton_return.clicked.connect(self._return)
+        # username = user
     
     # 注册
     def _login(self):
