@@ -218,7 +218,8 @@ class HomePageAdminWindow(QMainWindow, Ui_HomePage_admin):
 
 # 修改信息窗口
 class AlterInfoWindow(QMainWindow, Ui_AlterInfo):
-    switch_window_user_homepage = QtCore.pyqtSignal()
+    switch_window_homepage = QtCore.pyqtSignal()
+    switch_window_homepage_admin = QtCore.pyqtSignal()
     def __init__(self, parent = None):
         super(AlterInfoWindow, self).__init__(parent)
         self.setupUi(self)
@@ -227,10 +228,17 @@ class AlterInfoWindow(QMainWindow, Ui_AlterInfo):
     
     def _ok(self):
         if self.ok_check():
-            self.switch_window_user_homepage.emit()
+            cursor = connect.cursor()
+            sql = 'SELECT user_role FROM user WHERE user_id=%s'  
+            cursor.execute(sql, global_user_id)
+            data = cursor.fetchall()
+            if str(data[0][0]) == 'user':
+                self.switch_window_homepage.emit()
+            elif data[0][0] == 'admin':
+                self.switch_window_homepage_admin.emit()
     
     def _cancel(self):
-        self.switch_window_user_homepage.emit()
+        self.switch_window_homepage.emit()
 
     def ok_check(self):
         cursor = connect.cursor()
@@ -333,8 +341,10 @@ class Controller:
 
     def show_alter_info(self):
         self.alter_info = AlterInfoWindow()
-        self.alter_info.switch_window_user_homepage.connect(self.show_homepage)
-        self.alter_info.switch_window_user_homepage.connect(self.alter_info.close)
+        self.alter_info.switch_window_homepage.connect(self.show_homepage)
+        self.alter_info.switch_window_homepage.connect(self.alter_info.close)
+        self.alter_info.switch_window_homepage_admin.connect(self.show_homepage_admin)
+        self.alter_info.switch_window_homepage_admin.connect(self.alter_info.close)
         self.alter_info.show()
     
 
