@@ -10,11 +10,11 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 
 
-class Ui_Form(object):
-    def setupUi(self, Form):
-        Form.setObjectName("Form")
-        Form.resize(800, 450)
-        self.DetailPage = QtWidgets.QFrame(Form)
+class Ui_DetailPage_2(object):
+    def setupUi(self, DetailPage_2):
+        DetailPage_2.setObjectName("DetailPage_2")
+        DetailPage_2.resize(800, 450)
+        self.DetailPage = QtWidgets.QFrame(DetailPage_2)
         self.DetailPage.setGeometry(QtCore.QRect(40, 30, 720, 320))
         self.DetailPage.setStyleSheet("background-color: rgb(255, 255, 255);")
         self.DetailPage.setFrameShape(QtWidgets.QFrame.StyledPanel)
@@ -49,7 +49,7 @@ class Ui_Form(object):
         self.label.setPixmap(QtGui.QPixmap(":/prefix/images/profile.png"))
         self.label.setScaledContents(True)
         self.label.setObjectName("label")
-        self.pushButton_accept = QtWidgets.QPushButton(Form)
+        self.pushButton_accept = QtWidgets.QPushButton(DetailPage_2)
         self.pushButton_accept.setGeometry(QtCore.QRect(200, 375, 100, 45))
         font = QtGui.QFont()
         font.setFamily("微软雅黑")
@@ -60,7 +60,7 @@ class Ui_Form(object):
 "background-color: rgb(166, 200, 255);\n"
 "border-radius: 10px;")
         self.pushButton_accept.setObjectName("pushButton_accept")
-        self.pushButton_return = QtWidgets.QPushButton(Form)
+        self.pushButton_return = QtWidgets.QPushButton(DetailPage_2)
         self.pushButton_return.setGeometry(QtCore.QRect(500, 375, 100, 45))
         font = QtGui.QFont()
         font.setFamily("微软雅黑")
@@ -72,20 +72,20 @@ class Ui_Form(object):
 "border-radius: 10px;")
         self.pushButton_return.setObjectName("pushButton_return")
 
-        self.retranslateUi(Form)
-        QtCore.QMetaObject.connectSlotsByName(Form)
+        self.retranslateUi(DetailPage_2)
+        QtCore.QMetaObject.connectSlotsByName(DetailPage_2)
 
-    def retranslateUi(self, Form):
+    def retranslateUi(self, DetailPage_2):
         _translate = QtCore.QCoreApplication.translate
-        Form.setWindowTitle(_translate("Form", "Form"))
-        self.pushButton_id_10.setText(_translate("Form", "PushButton"))
-        self.textBrowser.setHtml(_translate("Form", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
+        DetailPage_2.setWindowTitle(_translate("DetailPage_2", "Form"))
+        self.pushButton_id_10.setText(_translate("DetailPage_2", "PushButton"))
+        self.textBrowser.setHtml(_translate("DetailPage_2", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
 "p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:\'SimSun\'; font-size:14.4pt; font-weight:400; font-style:normal;\">\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">1234</p>\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">1234</p>\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">1234</p></body></html>"))
-        self.pushButton_accept.setText(_translate("Form", "接 单"))
-        self.pushButton_return.setText(_translate("Form", "返 回"))
+"</style></head><body style=\" font-family:\'SimSun\'; font-size:9pt; font-weight:400; font-style:normal;\">\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:14.4pt;\">1234</span></p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:14.4pt;\">1234</span></p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:14.4pt;\">1234</span></p></body></html>"))
+        self.pushButton_accept.setText(_translate("DetailPage_2", "接 单"))
+        self.pushButton_return.setText(_translate("DetailPage_2", "返 回"))
 import image_rc

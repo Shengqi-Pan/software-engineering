@@ -10,12 +10,12 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 
 
-class Ui_Form(object):
-    def setupUi(self, Form):
-        Form.setObjectName("Form")
-        Form.resize(960, 720)
-        Form.setStyleSheet("background-color: rgb(228, 228, 228);")
-        self.frame = QtWidgets.QFrame(Form)
+class Ui_HomePage(object):
+    def setupUi(self, HomePage):
+        HomePage.setObjectName("HomePage")
+        HomePage.resize(960, 720)
+        HomePage.setStyleSheet("background-color: rgb(228, 228, 228);")
+        self.frame = QtWidgets.QFrame(HomePage)
         self.frame.setGeometry(QtCore.QRect(0, 0, 960, 54))
         self.frame.setStyleSheet("background-color: rgb(166, 200, 255);")
         self.frame.setFrameShape(QtWidgets.QFrame.StyledPanel)
@@ -69,7 +69,7 @@ class Ui_Form(object):
         self.pushButton.setIconSize(QtCore.QSize(40, 40))
         self.pushButton.setFlat(True)
         self.pushButton.setObjectName("pushButton")
-        self.frame_2 = QtWidgets.QFrame(Form)
+        self.frame_2 = QtWidgets.QFrame(HomePage)
         self.frame_2.setGeometry(QtCore.QRect(40, 90, 880, 590))
         self.frame_2.setStyleSheet("background-color: rgb(255, 255, 255);")
         self.frame_2.setFrameShape(QtWidgets.QFrame.StyledPanel)
@@ -166,25 +166,25 @@ class Ui_Form(object):
         self.label_money.setFont(font)
         self.label_money.setObjectName("label_money")
 
-        self.retranslateUi(Form)
-        QtCore.QMetaObject.connectSlotsByName(Form)
+        self.retranslateUi(HomePage)
+        QtCore.QMetaObject.connectSlotsByName(HomePage)
 
-    def retranslateUi(self, Form):
+    def retranslateUi(self, HomePage):
         _translate = QtCore.QCoreApplication.translate
-        Form.setWindowTitle(_translate("Form", "Form"))
-        self.pushButton_homepage.setText(_translate("Form", "个人主页"))
-        self.pushButton_newpost.setText(_translate("Form", "新帖列表"))
-        self.pushButton_msgcenter.setText(_translate("Form", "消息中心"))
-        self.label.setText(_translate("Form", "发新帖"))
-        self.pushButton_2.setText(_translate("Form", "信息修改"))
-        self.label_3.setText(_translate("Form", "账   号"))
-        self.label_4.setText(_translate("Form", "平台角色"))
-        self.label_5.setText(_translate("Form", "手机号码"))
-        self.label_6.setText(_translate("Form", "email"))
-        self.label_7.setText(_translate("Form", "财富值"))
-        self.label_id.setText(_translate("Form", "TextLabel"))
-        self.label_role.setText(_translate("Form", "TextLabel"))
-        self.label_tel.setText(_translate("Form", "TextLabel"))
-        self.label_email.setText(_translate("Form", "TextLabel"))
-        self.label_money.setText(_translate("Form", "TextLabel"))
+        HomePage.setWindowTitle(_translate("HomePage", "Form"))
+        self.pushButton_homepage.setText(_translate("HomePage", "个人主页"))
+        self.pushButton_newpost.setText(_translate("HomePage", "新帖列表"))
+        self.pushButton_msgcenter.setText(_translate("HomePage", "消息中心"))
+        self.label.setText(_translate("HomePage", "发新帖"))
+        self.pushButton_2.setText(_translate("HomePage", "信息修改"))
+        self.label_3.setText(_translate("HomePage", "账   号"))
+        self.label_4.setText(_translate("HomePage", "平台角色"))
+        self.label_5.setText(_translate("HomePage", "手机号码"))
+        self.label_6.setText(_translate("HomePage", "email"))
+        self.label_7.setText(_translate("HomePage", "财富值"))
+        self.label_id.setText(_translate("HomePage", "TextLabel"))
+        self.label_role.setText(_translate("HomePage", "TextLabel"))
+        self.label_tel.setText(_translate("HomePage", "TextLabel"))
+        self.label_email.setText(_translate("HomePage", "TextLabel"))
+        self.label_money.setText(_translate("HomePage", "TextLabel"))
 import image_rc
