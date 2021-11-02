@@ -69,6 +69,7 @@ class Ui_Register(object):
         self.label_6.setObjectName("label_6")
         self.lineEdit_3 = QtWidgets.QLineEdit(Register)
         self.lineEdit_3.setGeometry(QtCore.QRect(190, 520, 200, 32))
+        self.lineEdit_3.setEchoMode(QtWidgets.QLineEdit.Password)
         self.lineEdit_3.setObjectName("lineEdit_3")
         self.pushButton_return = QtWidgets.QPushButton(Register)
         self.pushButton_return.setGeometry(QtCore.QRect(10, 10, 110, 40))

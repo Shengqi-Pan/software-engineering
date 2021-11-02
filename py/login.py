@@ -43,6 +43,7 @@ class Ui_Login(object):
         self.lineEdit.setObjectName("lineEdit")
         self.lineEdit_2 = QtWidgets.QLineEdit(Login)
         self.lineEdit_2.setGeometry(QtCore.QRect(190, 480, 200, 32))
+        self.lineEdit_2.setEchoMode(QtWidgets.QLineEdit.Password)
         self.lineEdit_2.setObjectName("lineEdit_2")
         self.label = QtWidgets.QLabel(Login)
         self.label.setGeometry(QtCore.QRect(220, 30, 131, 24))
